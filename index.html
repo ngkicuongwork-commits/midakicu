@@ -1,1216 +1,1200 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mida × Kicu — 6 tháng Yêu Thương 💙</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue-light: #ddeeff;
+    --blue-soft: #b8d9f5;
+    --blue-mid: #7bb8e8;
+    --blue-deep: #3a7fc1;
+    --blue-dark: #1a4f8a;
+    --pink-soft: #ffd6e0;
+    --pink-mid: #ffadc5;
+    --cream: #fffbf5;
+    --white: #ffffff;
+    --text-dark: #1e3a5f;
+    --text-mid: #3d6b99;
+    --gold: #f0c060;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ===== FLOATING HEARTS CANVAS ===== */
+  #hearts-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #c8e6f9 0%, #ddeeff 40%, #f0e8ff 70%, #ffdde9 100%);
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 30%, rgba(183,215,255,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 70%, rgba(255,192,210,0.35) 0%, transparent 70%);
+  }
+
+  .hero-date-badge {
+    position: absolute;
+    top: 2rem; right: 2.5rem;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(120,180,240,0.4);
+    border-radius: 2rem;
+    padding: 0.5rem 1.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--blue-deep);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .hero-sub {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--blue-mid);
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--blue-deep) 0%, #5ea8e0 40%, var(--pink-mid) 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .hero-names {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--text-dark);
+    margin: 0.8rem 0;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .hero-names span { color: var(--blue-deep); }
+  .hero-names .heart-x { color: var(--pink-mid); margin: 0 0.3em; }
+
+  .hero-tagline {
+    font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+    color: var(--text-mid);
+    max-width: 480px;
+    margin: 1rem auto 2.5rem;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.1s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.8s forwards;
+  }
+  .scroll-hint span {
+    font-size: 0.75rem;
+    color: var(--blue-mid);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .scroll-arrow {
+    width: 24px; height: 24px;
+    border-right: 2px solid var(--blue-mid);
+    border-bottom: 2px solid var(--blue-mid);
+    transform: rotate(45deg);
+    animation: bounce 1.5s infinite;
+  }
+
+  /* Big heart decoration */
+  .hero-heart-deco {
+    position: absolute;
+    font-size: 18rem;
+    opacity: 0.06;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: pulse-slow 4s ease-in-out infinite;
+  }
+
+  /* ===== COUNTER STRIP ===== */
+  .counter-strip {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(90deg, var(--blue-deep), #3d88c9, #5ea0d8, var(--blue-deep));
+    background-size: 200% 100%;
+    animation: shimmer-bg 5s linear infinite;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 5rem);
+    flex-wrap: wrap;
+  }
+
+  .counter-item {
+    text-align: center;
+    color: white;
+  }
+  .counter-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .counter-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-top: 0.2rem;
+  }
+  .counter-dot {
+    width: 6px; height: 6px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    align-self: center;
+  }
+
+  /* ===== SECTION BASE ===== */
+  section {
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-header {
+    text-align: center;
+    padding: 4rem 1.5rem 2rem;
+  }
+
+  .section-eyebrow {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    color: var(--blue-mid);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: var(--text-dark);
+    line-height: 1.2;
+  }
+
+  .section-divider {
+    width: 80px; height: 3px;
+    background: linear-gradient(90deg, var(--blue-mid), var(--pink-mid));
+    border-radius: 2px;
+    margin: 1rem auto 0;
+  }
+
+  /* ===== PROFILES ===== */
+  .profiles-section {
+    background: linear-gradient(180deg, #f0f8ff 0%, #e8f4ff 100%);
+    padding: 0 1.5rem 5rem;
+  }
+
+  .profiles-grid {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .profile-card {
+    background: white;
+    border-radius: 2rem;
+    overflow: hidden;
+    width: 300px;
+    box-shadow: 0 20px 60px rgba(59,127,193,0.12), 0 4px 20px rgba(59,127,193,0.08);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .profile-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 80px rgba(59,127,193,0.2);
+  }
+
+  .profile-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s;
+  }
+
+  .profile-img-wrap {
+    height: 380px;
+    overflow: hidden;
+  }
+
+  .profile-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .profile-info {
+    padding: 1.5rem;
+    background: linear-gradient(180deg, white, #f5f9ff);
+  }
+
+  .profile-role {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1rem;
+    color: var(--blue-mid);
+    margin-bottom: 0.2rem;
+  }
+
+  .profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.3rem;
+  }
+
+  .profile-nick {
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    background: var(--blue-light);
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    border-radius: 1rem;
+  }
+
+  .profile-hearts {
+    margin-top: 0.8rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== TIMELINE / 6 MONTHS ===== */
+  .months-section {
+    background: var(--cream);
+    padding: 0 1.5rem 6rem;
+  }
+
+  .months-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .month-card {
+    background: white;
+    border-radius: 2rem;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(90,150,210,0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    position: relative;
+  }
+
+  .month-card.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34,1.3,0.64,1), box-shadow 0.4s ease;
+  }
+
+  .month-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 20px 60px rgba(90,150,210,0.2);
+  }
+
+  .month-card-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  .month-card-body {
+    padding: 1.5rem;
+    background: linear-gradient(180deg, white 0%, #f0f8ff 100%);
+  }
+
+  .month-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, var(--blue-deep), #5ea8e0);
+    color: white;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 2rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.7rem;
+  }
+
+  .month-date {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.05rem;
+    color: var(--blue-mid);
+    margin-bottom: 0.3rem;
+  }
+
+  .month-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+
+  .month-desc {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  /* ===== LETTER / MESSAGE ===== */
+  .letter-section {
+    background: linear-gradient(160deg, #c8e6fa 0%, #ddeeff 50%, #e8f4ff 100%);
+    padding: 6rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .letter-section::before {
+    content: '❤';
+    position: absolute;
+    font-size: 30rem;
+    opacity: 0.04;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+
+  .letter-wrap {
+    max-width: 750px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 2.5rem;
+    padding: clamp(2.5rem, 6vw, 5rem);
+    box-shadow: 0 30px 100px rgba(59,127,193,0.15), inset 0 0 0 1px rgba(120,180,240,0.3);
+    position: relative;
+    z-index: 2;
+  }
+
+  .letter-stamp {
+    position: absolute;
+    top: -1.5rem; right: 2.5rem;
+    background: var(--pink-soft);
+    border: 3px solid var(--pink-mid);
+    border-radius: 0.5rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #c0607a;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transform: rotate(3deg);
+  }
+
+  .letter-to {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: var(--blue-deep);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed rgba(90,150,210,0.3);
+  }
+
+  .letter-body {
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    line-height: 2;
+    color: var(--text-dark);
+  }
+
+  .letter-body p { margin-bottom: 1.2rem; }
+
+  .letter-body .highlight {
+    color: var(--blue-deep);
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  .letter-sign {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: var(--blue-deep);
+    text-align: right;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed rgba(90,150,210,0.3);
+  }
+
+  /* ===== HEART GALLERY ===== */
+  .gallery-section {
+    background: var(--cream);
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .gallery-item {
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(90,150,210,0.12);
+    position: relative;
+    aspect-ratio: 3/4;
+    transition: transform 0.4s ease;
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  .gallery-item.visible {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34,1.3,0.64,1);
+  }
+
+  .gallery-item:hover { transform: scale(1.04) rotate(1deg) !important; }
+  .gallery-item:nth-child(even):hover { transform: scale(1.04) rotate(-1deg) !important; }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ===== PROMISE SECTION ===== */
+  .promise-section {
+    background: linear-gradient(135deg, var(--blue-dark) 0%, #2a6aaa 50%, #1a4f8a 100%);
+    padding: 6rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .promise-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 40% 50% at 15% 50%, rgba(100,170,240,0.2) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 85% 50%, rgba(255,150,180,0.15) 0%, transparent 70%);
+  }
+
+  .promise-section .section-title { color: white; }
+  .promise-section .section-eyebrow { color: var(--blue-soft); }
+  .promise-section .section-divider {
+    background: linear-gradient(90deg, var(--blue-soft), #ffadc5);
+  }
+
+  .promise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 3rem auto 0;
+  }
+
+  .promise-item {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 1.5rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: transform 0.3s, background 0.3s;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .promise-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .promise-item:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-5px) !important;
+  }
+
+  .promise-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .promise-text {
+    color: white;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .promise-text strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+    color: var(--blue-soft);
+  }
+
+  /* ===== WISHES ===== */
+  .wishes-section {
+    background: linear-gradient(160deg, #f5f0ff, #e8f4ff, #fff5f8);
+    padding: 6rem 1.5rem;
+  }
+
+  .wishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 3rem auto 0;
+  }
+
+  .wish-card {
+    background: white;
+    border-radius: 2rem;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 10px 40px rgba(90,150,210,0.1);
+    border-top: 4px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .wish-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .wish-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blue-mid), var(--pink-mid));
+  }
+
+  .wish-card::after {
+    content: '"';
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--blue-light);
+    line-height: 1;
+  }
+
+  .wish-text {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .wish-from {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.1rem;
+    color: var(--blue-deep);
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--text-dark);
+    padding: 4rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(90,150,210,0.15) 0%, transparent 70%);
+  }
+
+  .footer-heart {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    animation: pulse-slow 2s ease-in-out infinite;
+  }
+
+  .footer-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: var(--blue-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-date {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.15em;
+    margin-bottom: 2rem;
+  }
+
+  .footer-note {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: rotate(45deg) translate(0,0); }
+    50%       { transform: rotate(45deg) translate(4px,4px); }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.08); }
+  }
+
+  @keyframes shimmer-bg {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%       { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  /* ===== DECORATIVE HEARTS ===== */
+  .deco-hearts {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .deco-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.15;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* ===== RIBBON ===== */
+  .ribbon-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem 1.5rem;
+    background: var(--cream);
+  }
+
+  .ribbon-line {
+    flex: 1;
+    max-width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue-soft), transparent);
+  }
+
+  .ribbon-icon { font-size: 1.5rem; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .months-grid { grid-template-columns: 1fr; }
+    .promise-grid { grid-template-columns: 1fr 1fr; }
+    .profiles-grid { gap: 1.5rem; }
+    .profile-card { width: 100%; max-width: 340px; }
+  }
+</style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="vi"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1">&lt;title&gt;Mida × Kicu — 6 tháng Yêu Thương 💙&lt;/title&gt;</p>
-<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Quicksand:wght@400;500;600;700&amp;family=Dancing+Script:wght@600;700&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--blue-light: #ddeeff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--blue-soft: #b8d9f5;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--blue-mid: #7bb8e8;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--blue-deep: #3a7fc1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--blue-dark: #1a4f8a;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--pink-soft: #ffd6e0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--pink-mid: #ffadc5;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--cream: #fffbf5;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--white: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--text-dark: #1e3a5f;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--text-mid: #3d6b99;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--gold: #f0c060;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>* { margin: 0; padding: 0; box-sizing: border-box; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>html { scroll-behavior: smooth; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Quicksand', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--cream);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dark);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow-x: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== FLOATING HEARTS CANVAS ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>#hearts-canvas {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: fixed;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>top: 0; left: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 100%; height: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>pointer-events: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== HERO ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>min-height: 100vh;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(160deg, #c8e6f9 0%, #ddeeff 40%, #f0e8ff 70%, #ffdde9 100%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero::before {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content: '';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>inset: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:</p>
-<p class="p1"><span class="Apple-converted-space">      </span>radial-gradient(ellipse 60% 40% at 20% 30%, rgba(183,215,255,0.5) 0%, transparent 70%),</p>
-<p class="p1"><span class="Apple-converted-space">      </span>radial-gradient(ellipse 50% 60% at 80% 70%, rgba(255,192,210,0.35) 0%, transparent 70%);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-date-badge {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>top: 2rem; right: 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.7);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>backdrop-filter: blur(12px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 2px solid rgba(120,180,240,0.4);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 0.5rem 1.4rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.85rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-deep);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0.05em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-content {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 2;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-sub {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: clamp(1.2rem, 3vw, 1.8rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: fadeUp 1s ease 0.3s forwards;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-title {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Playfair Display', serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: clamp(3rem, 10vw, 6.5rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(135deg, var(--blue-deep) 0%, #5ea8e0 40%, var(--pink-mid) 80%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>-webkit-background-clip: text;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>-webkit-text-fill-color: transparent;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background-clip: text;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: fadeUp 1s ease 0.6s forwards;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-names {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: clamp(2rem, 6vw, 4rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dark);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 0.8rem 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: fadeUp 1s ease 0.9s forwards;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-names span { color: var(--blue-deep); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-names .heart-x { color: var(--pink-mid); margin: 0 0.3em; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-tagline {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: clamp(0.9rem, 2.5vw, 1.15rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width: 480px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 1rem auto 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.8;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: fadeUp 1s ease 1.1s forwards;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scroll-hint {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>bottom: 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>left: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateX(-50%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 0.4rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: fadeUp 1s ease 1.8s forwards;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scroll-hint span {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.75rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0.1em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.scroll-arrow {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 24px; height: 24px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-right: 2px solid var(--blue-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 2px solid var(--blue-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: rotate(45deg);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: bounce 1.5s infinite;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* Big heart decoration */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.hero-heart-deco {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 18rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0.06;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>top: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>left: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translate(-50%, -50%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>pointer-events: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: pulse-slow 4s ease-in-out infinite;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== COUNTER STRIP ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.counter-strip {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 2;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(90deg, var(--blue-deep), #3d88c9, #5ea0d8, var(--blue-deep));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background-size: 200% 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: shimmer-bg 5s linear infinite;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 1.5rem 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: clamp(1.5rem, 5vw, 5rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex-wrap: wrap;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.counter-item {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.counter-num {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Playfair Display', serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: clamp(2rem, 5vw, 3.5rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.counter-label {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.75rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0.12em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0.85;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top: 0.2rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.counter-dot {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 6px; height: 6px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.4);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-self: center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== SECTION BASE ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>section {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-header {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 4rem 1.5rem 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-eyebrow {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.3rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-title {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Playfair Display', serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: clamp(1.8rem, 5vw, 3rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dark);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-divider {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 80px; height: 3px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(90deg, var(--blue-mid), var(--pink-mid));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 1rem auto 0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== PROFILES ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profiles-section {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(180deg, #f0f8ff 0%, #e8f4ff 100%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 0 1.5rem 5rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profiles-grid {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 3rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex-wrap: wrap;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width: 900px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-card {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 300px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 20px 60px rgba(59,127,193,0.12), 0 4px 20px rgba(59,127,193,0.08);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(40px);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-card:hover {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(-10px) scale(1.02);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 30px 80px rgba(59,127,193,0.2);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-card.visible {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(0);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-img-wrap {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 380px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-img-wrap img {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>object-fit: cover;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>object-position: top center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-info {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(180deg, white, #f5f9ff);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-role {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.2rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-name {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Playfair Display', serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dark);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.3rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-nick {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.85rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--blue-light);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: inline-block;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 0.2rem 0.8rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.profile-hearts {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top: 0.8rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0.1em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== TIMELINE / 6 MONTHS ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.months-section {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--cream);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 0 1.5rem 6rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.months-grid {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width: 1100px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-card {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 8px 40px rgba(90,150,210,0.1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: transform 0.4s ease, box-shadow 0.4s ease;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(50px) scale(0.95);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-card.visible {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(0) scale(1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34,1.3,0.64,1), box-shadow 0.4s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-card:hover {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(-8px) scale(1.02) !important;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 20px 60px rgba(90,150,210,0.2);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-card-img {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 400px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>object-fit: cover;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>object-position: top center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-card-body {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(180deg, white 0%, #f0f8ff 100%);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-badge {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: inline-flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 0.4rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(135deg, var(--blue-deep), #5ea8e0);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.8rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 0.3rem 0.9rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0.06em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.7rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-date {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.05rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.3rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-title {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Playfair Display', serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dark);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-style: italic;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.month-desc {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.88rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.7;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== LETTER / MESSAGE ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-section {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(160deg, #c8e6fa 0%, #ddeeff 50%, #e8f4ff 100%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 6rem 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-section::before {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content: '❤';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 30rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0.04;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>top: 50%; left: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translate(-50%,-50%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>pointer-events: none;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-wrap {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width: 750px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.8);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>backdrop-filter: blur(20px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: clamp(2.5rem, 6vw, 5rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 30px 100px rgba(59,127,193,0.15), inset 0 0 0 1px rgba(120,180,240,0.3);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-stamp {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>top: -1.5rem; right: 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--pink-soft);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 3px solid var(--pink-mid);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 0.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 0.6rem 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.7rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #c0607a;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0.08em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: rotate(3deg);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-to {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.4rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-deep);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding-bottom: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 1px dashed rgba(90,150,210,0.3);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-body {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: clamp(0.95rem, 2vw, 1.05rem);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 2;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dark);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-body p { margin-bottom: 1.2rem; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-body .highlight {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-deep);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-style: italic;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.letter-sign {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.8rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-deep);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: right;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding-top: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-top: 1px dashed rgba(90,150,210,0.3);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== HEART GALLERY ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gallery-section {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--cream);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 4rem 1.5rem 6rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gallery-grid {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width: 1100px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gallery-item {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 8px 30px rgba(90,150,210,0.12);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>aspect-ratio: 3/4;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: transform 0.4s ease;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: scale(0.9);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gallery-item.visible {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: scale(1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34,1.3,0.64,1);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gallery-item:hover { transform: scale(1.04) rotate(1deg) !important; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gallery-item:nth-child(even):hover { transform: scale(1.04) rotate(-1deg) !important; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.gallery-item img {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>object-fit: cover;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== PROMISE SECTION ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-section {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(135deg, var(--blue-dark) 0%, #2a6aaa 50%, #1a4f8a 100%);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 6rem 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-section::before {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content: '';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>inset: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background:</p>
-<p class="p1"><span class="Apple-converted-space">      </span>radial-gradient(ellipse 40% 50% at 15% 50%, rgba(100,170,240,0.2) 0%, transparent 70%),</p>
-<p class="p1"><span class="Apple-converted-space">      </span>radial-gradient(ellipse 40% 50% at 85% 50%, rgba(255,150,180,0.15) 0%, transparent 70%);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-section .section-title { color: white; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-section .section-eyebrow { color: var(--blue-soft); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-section .section-divider {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(90deg, var(--blue-soft), #ffadc5);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-grid {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width: 900px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 3rem auto 0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-item {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.08);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>backdrop-filter: blur(10px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid rgba(255,255,255,0.15);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 2rem 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: transform 0.3s, background 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(30px);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-item.visible {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(0);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: opacity 0.7s ease, transform 0.7s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-item:hover {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: rgba(255,255,255,0.14);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(-5px) !important;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-icon {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-text {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.95rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.7;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.promise-text strong {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.4rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-soft);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== WISHES ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wishes-section {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(160deg, #f5f0ff, #e8f4ff, #fff5f8);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 6rem 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wishes-grid {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width: 1000px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin: 3rem auto 0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wish-card {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 2.5rem 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>box-shadow: 0 10px 40px rgba(90,150,210,0.1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-top: 4px solid transparent;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background-clip: padding-box;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(30px);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wish-card.visible {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transform: translateY(0);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>transition: opacity 0.7s ease, transform 0.7s ease;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wish-card::before {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content: '';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>top: 0; left: 0; right: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(90deg, var(--blue-mid), var(--pink-mid));</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wish-card::after {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content: '"';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>top: 1rem; right: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Playfair Display', serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-light);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wish-text {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.95rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--text-dark);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 1;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.wish-from {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-deep);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== FOOTER ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--text-dark);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 4rem 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer::before {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>content: '';</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>inset: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: radial-gradient(ellipse at center, rgba(90,150,210,0.15) 0%, transparent 70%);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer-heart {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 3rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: pulse-slow 2s ease-in-out infinite;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer-title {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Dancing Script', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 2.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: var(--blue-soft);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 0.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer-date {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: 'Playfair Display', serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: rgba(255,255,255,0.5);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0.15em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 2rem;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.footer-note {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 0.8rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: rgba(255,255,255,0.3);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 0.05em;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== ANIMATIONS ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@keyframes fadeUp {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>from { opacity: 0; transform: translateY(30px); }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>to <span class="Apple-converted-space">  </span>{ opacity: 1; transform: translateY(0); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>@keyframes bounce {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>0%, 100% { transform: rotate(45deg) translate(0,0); }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>50% <span class="Apple-converted-space">      </span>{ transform: rotate(45deg) translate(4px,4px); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>@keyframes pulse-slow {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>0%, 100% { transform: scale(1); }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>50% <span class="Apple-converted-space">      </span>{ transform: scale(1.08); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>@keyframes shimmer-bg {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>0% <span class="Apple-converted-space">  </span>{ background-position: 0% 50%; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>100% { background-position: 200% 50%; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>@keyframes float {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>0%, 100% { transform: translateY(0) rotate(0deg); }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>50% <span class="Apple-converted-space">      </span>{ transform: translateY(-20px) rotate(5deg); }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== DECORATIVE HEARTS ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.deco-hearts {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>pointer-events: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>z-index: 0;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.deco-heart {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: 0.15;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animation: float 4s ease-in-out infinite;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== RIBBON ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.ribbon-divider {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 1rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 2rem 1.5rem;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: var(--cream);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.ribbon-line {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>flex: 1;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>max-width: 200px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>height: 1px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: linear-gradient(90deg, transparent, var(--blue-soft), transparent);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.ribbon-icon { font-size: 1.5rem; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>/* ===== RESPONSIVE ===== */</p>
-<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width: 600px) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.months-grid { grid-template-columns: 1fr; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.promise-grid { grid-template-columns: 1fr 1fr; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.profiles-grid { gap: 1.5rem; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.profile-card { width: 100%; max-width: 340px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;canvas id="hearts-canvas"&gt;&lt;/canvas&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== HERO ===== --&gt;</p>
-<p class="p1">&lt;section class="hero"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-date-badge"&gt;18/10/2025 — 18/04/2026&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-heart-deco"&gt;💙&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="hero-content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="hero-sub"&gt;✦ Một hành trình thật đặc biệt ✦&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1 class="hero-title"&gt;6 tháng&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="hero-names"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span&gt;Mida&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="heart-x"&gt;×&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span&gt;Kicu&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="hero-tagline"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Nửa năm không nhiều, nhưng đủ để biết rằng: khi mình bên nhau, mọi ngày đều trở nên đáng nhớ 💙</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="scroll-hint"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;span&gt;Cuộn xuống&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="scroll-arrow"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== COUNTER STRIP ===== --&gt;</p>
-<p class="p1">&lt;div class="counter-strip"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="counter-item"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="counter-num" id="cnt-days"&gt;183&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="counter-label"&gt;Ngày&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="counter-dot"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="counter-item"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="counter-num"&gt;6&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="counter-label"&gt;Tháng&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="counter-dot"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="counter-item"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="counter-num"&gt;∞&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="counter-label"&gt;Kỷ niệm&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="counter-dot"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="counter-item"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="counter-num"&gt;1&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="counter-label"&gt;Tình yêu&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== PROFILES ===== --&gt;</p>
-<p class="p1">&lt;section class="profiles-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="section-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="section-eyebrow"&gt;Nhân vật chính&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="section-title"&gt;Hai người, Một câu chuyện&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="section-divider"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="profiles-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="profile-card reveal-item" style="transition-delay:0.1s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="profile-img-wrap"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;img src="28.png" alt="Mida - Minh Đăng" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="profile-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="profile-role"&gt;Chàng trai đặc biệt&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="profile-name"&gt;Hồ Minh Đăng&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="profile-nick"&gt;@Mida ✦ minoh_danog&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="profile-hearts"&gt;💙💙💙&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="profile-card reveal-item" style="transition-delay:0.3s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="profile-img-wrap"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;img src="29.png" alt="Kicu - Kim Cường" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="profile-info"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="profile-role"&gt;Em bé đáng yêu&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="profile-name"&gt;Nguyễn Kim Cường&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="profile-nick"&gt;@Kicu ✦ Kicu&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="profile-hearts"&gt;💙💙💙&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- DIVIDER --&gt;</p>
-<p class="p1">&lt;div class="ribbon-divider"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="ribbon-line"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;span class="ribbon-icon"&gt;💙&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="ribbon-line"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== 6 MONTHS ===== --&gt;</p>
-<p class="p1">&lt;section class="months-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="section-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="section-eyebrow"&gt;Hành trình của chúng mình&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="section-title"&gt;Sáu Tháng: Sáu Chương&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="section-divider"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="months-grid"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="month-card reveal-item" style="transition-delay:0.05s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img class="month-card-img" src="16.png" alt="Tháng 1" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="month-card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="month-badge"&gt;💙 Tháng 1&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-date"&gt;18/10/2025&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="month-title"&gt;"Bắt đầu từ một ngày thật đẹp"&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-desc"&gt;Tháng đầu tiên bên nhau — những buổi date đầu tiên, những tin nhắn ngọt, những kỷ niệm đáng nhớ.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="month-card reveal-item" style="transition-delay:0.1s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img class="month-card-img" src="17.png" alt="Tháng 2" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="month-card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="month-badge"&gt;💙 Tháng 2&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-date"&gt;18/11/2025&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="month-title"&gt;"Gần nhau hơn từng ngày"&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-desc"&gt;Tặng nhau những món quà nhỏ xinh, học cách hiểu nhau nhiều hơn.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="month-card reveal-item" style="transition-delay:0.15s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img class="month-card-img" src="18.png" alt="Tháng 3" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="month-card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="month-badge"&gt;💙 Tháng 3&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-date"&gt;18/12/2025&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="month-title"&gt;"Giáng Sinh của đôi mình"&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-desc"&gt;Mùa Noel đặc biệt khi có nhau — những chuyến đi chơi cùng nhau, những bức ảnh đẹp và nụ cười thật thật trên đường phố rực đèn.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="month-card reveal-item" style="transition-delay:0.2s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img class="month-card-img" src="19.png" alt="Tháng 4" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="month-card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="month-badge"&gt;💙 Tháng 4&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-date"&gt;18/01/2026&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="month-title"&gt;"Tết đầu tiên bên nhau"&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-desc"&gt;Những ngày Tết rực rỡ, cùng nhau đón năm mới, trao nhau những hy vọng cho năm mới.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="month-card reveal-item" style="transition-delay:0.25s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img class="month-card-img" src="30.png" alt="Tháng 5" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="month-card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="month-badge"&gt;💙 Tháng 5&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-date"&gt;18/02/2026&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="month-title"&gt;"Khám phá thành phố cùng nhau"&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-desc"&gt;Những chuyến phiêu lưu qua nhiều con phố, chụp ảnh tại Landmark, ăn cùng nhau và tận hưởng từng giây phút bên nhau.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="month-card reveal-item" style="transition-delay:0.3s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img class="month-card-img" src="31.png" alt="Tháng 6" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="month-card-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="month-badge"&gt;🎓 Tháng 6&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-date"&gt;18/03/2026&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h3 class="month-title"&gt;"Tốt nghiệp và bước tiếp"&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="month-desc"&gt;Kicu tốt nghiệp. Cùng nhau đến concert, chụp ảnh kỷ niệm, và hiểu nhau hơn.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- DIVIDER --&gt;</p>
-<p class="p1">&lt;div class="ribbon-divider" style="background: linear-gradient(160deg, #f0f8ff, #fff5f8)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="ribbon-line"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;span class="ribbon-icon"&gt;🌊&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="ribbon-line"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== GALLERY ===== --&gt;</p>
-<p class="p1">&lt;section class="gallery-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="section-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="section-eyebrow"&gt;Chúng mình cùng nhau&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="section-title"&gt;Những Khoảnh Khắc Đáng Nhớ&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="section-divider"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="gallery-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="gallery-item reveal-item" style="transition-delay:0.05s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img src="26.png" alt="Kicu x Mida" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="gallery-item reveal-item" style="transition-delay:0.1s; aspect-ratio: 3/5;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img src="27.png" alt="Chúng mình có nhau" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="gallery-item reveal-item" style="transition-delay:0.15s; aspect-ratio: 3/5;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img src="18.png" alt="3rd Month" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="gallery-item reveal-item" style="transition-delay:0.2s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;img src="19.png" alt="4th Month" loading="lazy"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- DIVIDER --&gt;</p>
-<p class="p1">&lt;div class="ribbon-divider"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="ribbon-line"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;span class="ribbon-icon"&gt;💌&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="ribbon-line"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== LETTER ===== --&gt;</p>
-<p class="p1">&lt;section class="letter-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="letter-wrap reveal-item"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="letter-stamp"&gt;✉ Với tất cả tình yêu&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="letter-to"&gt;Gửi Mida - người đặc biệt của Kicu,&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="letter-body"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Hôm nay ngồi nhìn lại hành trình 6 tháng qua, em mới chợt nhận ra thời gian trôi nhanh đến lạ. Có những ngày dường như mới chỉ là bắt đầu, vậy mà tụi mình đã cùng nhau đi qua tròn nửa năm với biết bao nhiêu kỷ niệm.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Em muốn viết đôi dòng này để thực sự cảm ơn anh. Cảm ơn Mida vì đã xuất hiện vào lúc em cần một sự quan tâm nhất, và vì đã chọn ở lại, kiên trì cùng em xây dựng những thấu hiểu nhỏ bé mỗi ngày. Cảm ơn anh đã luôn là người lắng nghe những mẩu chuyện không đầu không cuối của em, đã kiên nhẫn với những lúc em bướng bỉnh, và luôn dành cho em một cái nắm tay thật chặt để em biết mình không bao giờ đơn độc.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Người ta nói 6 tháng là cột mốc để người ta hiểu nhau hơn, và em thấy mình thật may mắn khi càng hiểu về anh, em lại càng thương anh nhiều hơn. Em không mong tụi mình phải có một tình yêu thật hào nhoáng hay hoàn hảo, em chỉ mong dù là 6 tháng, 6 năm hay lâu hơn nữa, tụi mình vẫn giữ được sự dịu dàng này dành cho nhau. Vẫn có thể cùng nhau đi dạo, cùng nhau kể về những ước mơ, và cùng nhau trưởng thành và thành công hơn nữa.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">       </span>Chúc mừng ngày kỷ niệm của tụi mình. Cảm ơn Mida đã đến và làm cho thế giới của Kicu trở nên rực rỡ và ấm áp hơn rất nhiều.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="highlight"&gt;Hẹn gặp anh ở tháng thứ 7, thứ 12, và tất cả những tháng phía trước. 💙&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="letter-sign"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Yêu anh thật nhiều,&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;em&gt;Em Kicu. ✦&lt;/em&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== PROMISES ===== --&gt;</p>
-<p class="p1">&lt;section class="promise-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="section-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="section-eyebrow"&gt;Những điều nhỏ nhoi mà lớn lắm&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="section-title" style="color:white"&gt;Mong rằng&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="section-divider"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="promise-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="promise-item reveal-item" style="transition-delay:0.05s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="promise-icon"&gt;☀️&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="promise-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Mỗi buổi sáng&lt;/strong&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Dù bận đến đâu, vẫn sẽ gửi một tin nhắn nhỏ để biết mình đang được nghĩ tới nhau.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="promise-item reveal-item" style="transition-delay:0.1s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="promise-icon"&gt;🤝&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="promise-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Khi khó khăn&lt;/strong&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Không bỏ đi một mình — sẽ nói chuyện, sẽ ngồi lại, sẽ giải quyết cùng nhau.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="promise-item reveal-item" style="transition-delay:0.15s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="promise-icon"&gt;🌙&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="promise-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Mỗi buổi tối&lt;/strong&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Sẽ luôn kết thúc bằng những lời chúc dù ngắn, dù dài, miễn là nhau biết rằng chúng mình vẫn ở đây.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="promise-item reveal-item" style="transition-delay:0.2s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="promise-icon"&gt;🌱&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="promise-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Trưởng thành cùng nhau&lt;/strong&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Không ngừng lắng nghe, không ngừng học cách yêu thương đúng cách hơn mỗi ngày.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== WISHES ===== --&gt;</p>
-<p class="p1">&lt;section class="wishes-section"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="section-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="section-eyebrow"&gt;Từ trái tim&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="section-title"&gt;Lời Chúc Nửa Năm&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="section-divider"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="wishes-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="wish-card reveal-item" style="transition-delay:0.05s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="wish-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Chúc chúng mình mãi giữ được sự nhẹ nhàng, bao dung trong từng cuộc trò chuyện — dù ngày vui hay ngày buồn, dù gần hay xa, vẫn luôn chọn nhau.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="wish-from"&gt;— Cho Mida &amp; Kicu 💙&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="wish-card reveal-item" style="transition-delay:0.1s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="wish-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Chúc anh Mida luôn tự hào về hành trình của mình, mỗi bước tiến đều có Mida bên cạnh hò hét cổ vũ — loud and proudcủa Kicu.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="wish-from"&gt;— Từ Kicu 💙&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="wish-card reveal-item" style="transition-delay:0.15s"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="wish-text"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Chúc tình yêu này lớn lên theo năm tháng — không phải ồn ào, mà sâu lắng và bền vững như màu xanh biển cả sau mỗi cơn bão.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="wish-from"&gt;— 💙&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== FOOTER ===== --&gt;</p>
-<p class="p1">&lt;footer class="footer"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;span class="footer-heart"&gt;💙&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h2 class="footer-title"&gt;Mida × Kicu&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;p class="footer-date"&gt;18 · 10 · 2025 — 18 · 04 · 2026&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;p class="footer-note"&gt;Made with love ✦ Nửa năm đầu của hành trình dài&lt;/p&gt;</p>
-<p class="p1">&lt;/footer&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ===== CANVAS HEARTS ===== --&gt;</p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1">const canvas = document.getElementById('hearts-canvas');</p>
-<p class="p1">const ctx = canvas.getContext('2d');</p>
-<p class="p1">let W, H, hearts = [];</p>
-<p class="p2"><br></p>
-<p class="p1">function resize() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>W = canvas.width = window.innerWidth;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>H = canvas.height = window.innerHeight;</p>
-<p class="p1">}</p>
-<p class="p1">resize();</p>
-<p class="p1">window.addEventListener('resize', resize);</p>
-<p class="p2"><br></p>
-<p class="p1">function randomHeart() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>return {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>x: Math.random() * W,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>y: H + 40,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>size: Math.random() * 18 + 8,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>speed: Math.random() * 0.6 + 0.3,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>opacity: Math.random() * 0.3 + 0.05,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>drift: (Math.random() - 0.5) * 0.4,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>sway: Math.random() * 0.02 + 0.005,</p>
-<p class="p1"><span class="Apple-converted-space">    </span>swayOffset: Math.random() * Math.PI * 2,</p>
-<p class="p1"><span class="Apple-converted-space">  </span>};</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">for (let i = 0; i &lt; 25; i++) {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const h = randomHeart();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>h.y = Math.random() * H;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>hearts.push(h);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function drawHeart(x, y, size, opacity) {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.save();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.globalAlpha = opacity;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.fillStyle = '#7bb8e8';</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.beginPath();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.moveTo(x, y + size * 0.3);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.bezierCurveTo(x, y, x - size * 0.5, y, x - size * 0.5, y + size * 0.3);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.bezierCurveTo(x - size * 0.5, y + size * 0.6, x, y + size * 0.85, x, y + size);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.bezierCurveTo(x, y + size * 0.85, x + size * 0.5, y + size * 0.6, x + size * 0.5, y + size * 0.3);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.bezierCurveTo(x + size * 0.5, y, x, y, x, y + size * 0.3);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.fill();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.restore();</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">let frame = 0;</p>
-<p class="p1">function animate() {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>ctx.clearRect(0, 0, W, H);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>frame++;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (frame % 90 === 0 &amp;&amp; hearts.length &lt; 35) hearts.push(randomHeart());</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>hearts = hearts.filter(h =&gt; h.y &gt; -50);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>hearts.forEach(h =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h.y -= h.speed;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h.x += Math.sin(frame * h.sway + h.swayOffset) * 0.5 + h.drift;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>drawHeart(h.x, h.y, h.size, h.opacity);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>requestAnimationFrame(animate);</p>
-<p class="p1">}</p>
-<p class="p1">animate();</p>
-<p class="p2"><br></p>
-<p class="p1">// ===== SCROLL REVEAL =====</p>
-<p class="p1">const revealItems = document.querySelectorAll('.reveal-item');</p>
-<p class="p1">const observer = new IntersectionObserver(entries =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>entries.forEach(e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (e.isIntersecting) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>e.target.classList.add('visible');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>observer.unobserve(e.target);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>});</p>
-<p class="p1">}, { threshold: 0.15 });</p>
-<p class="p1">revealItems.forEach(el =&gt; observer.observe(el));</p>
-<p class="p2"><br></p>
-<p class="p1">// Alias profile-card and other cards</p>
-<p class="p1">document.querySelectorAll('.profile-card, .month-card, .gallery-item, .promise-item, .wish-card, .letter-wrap').forEach(el =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (!el.classList.contains('reveal-item')) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>el.classList.add('reveal-item');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>observer.observe(el);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">// ===== COUNTER ANIMATION =====</p>
-<p class="p1">function animateCounter(el, target, duration = 1500) {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>let start = 0, startTime = null;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>function step(ts) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!startTime) startTime = ts;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const progress = Math.min((ts - startTime) / duration, 1);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>el.textContent = Math.floor(progress * target);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (progress &lt; 1) requestAnimationFrame(step);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>else el.textContent = target;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>requestAnimationFrame(step);</p>
-<p class="p1">}</p>
-<p class="p1">const daysEl = document.getElementById('cnt-days');</p>
-<p class="p1">const daysObserver = new IntersectionObserver(entries =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (entries[0].isIntersecting) {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>animateCounter(daysEl, 183);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>daysObserver.disconnect();</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1">}, { threshold: 0.5 });</p>
-<p class="p1">daysObserver.observe(daysEl);</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<canvas id="hearts-canvas"></canvas>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-date-badge">18/10/2025 — 18/04/2026</div>
+  <div class="hero-heart-deco">💙</div>
+
+  <div class="hero-content">
+    <p class="hero-sub">✦ Một hành trình thật đặc biệt ✦</p>
+    <h1 class="hero-title">6 tháng</h1>
+    <p class="hero-names">
+      <span>Mida</span>
+      <span class="heart-x">×</span>
+      <span>Kicu</span>
+    </p>
+    <p class="hero-tagline">
+      Nửa năm không nhiều, nhưng đủ để biết rằng: khi mình bên nhau, mọi ngày đều trở nên đáng nhớ 💙
+    </p>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Cuộn xuống</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ===== COUNTER STRIP ===== -->
+<div class="counter-strip">
+  <div class="counter-item">
+    <div class="counter-num" id="cnt-days">183</div>
+    <div class="counter-label">Ngày</div>
+  </div>
+  <div class="counter-dot"></div>
+  <div class="counter-item">
+    <div class="counter-num">6</div>
+    <div class="counter-label">Tháng</div>
+  </div>
+  <div class="counter-dot"></div>
+  <div class="counter-item">
+    <div class="counter-num">∞</div>
+    <div class="counter-label">Kỷ niệm</div>
+  </div>
+  <div class="counter-dot"></div>
+  <div class="counter-item">
+    <div class="counter-num">1</div>
+    <div class="counter-label">Tình yêu</div>
+  </div>
+</div>
+
+<!-- ===== PROFILES ===== -->
+<section class="profiles-section">
+  <div class="section-header">
+    <p class="section-eyebrow">Nhân vật chính</p>
+    <h2 class="section-title">Hai người, Một câu chuyện</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="profiles-grid">
+    <div class="profile-card reveal-item" style="transition-delay:0.1s">
+      <div class="profile-img-wrap">
+        <img src="28.png" alt="Mida - Minh Đăng" loading="lazy">
+      </div>
+      <div class="profile-info">
+        <p class="profile-role">Chàng trai đặc biệt</p>
+        <h3 class="profile-name">Hồ Minh Đăng</h3>
+        <span class="profile-nick">@Mida ✦ minoh_danog</span>
+        <p class="profile-hearts">💙💙💙</p>
+      </div>
+    </div>
+
+    <div class="profile-card reveal-item" style="transition-delay:0.3s">
+      <div class="profile-img-wrap">
+        <img src="29.png" alt="Kicu - Kim Cường" loading="lazy">
+      </div>
+      <div class="profile-info">
+        <p class="profile-role">Em bé đáng yêu</p>
+        <h3 class="profile-name">Nguyễn Kim Cường</h3>
+        <span class="profile-nick">@Kicu ✦ Kicu</span>
+        <p class="profile-hearts">💙💙💙</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="ribbon-divider">
+  <div class="ribbon-line"></div>
+  <span class="ribbon-icon">💙</span>
+  <div class="ribbon-line"></div>
+</div>
+
+<!-- ===== 6 MONTHS ===== -->
+<section class="months-section">
+  <div class="section-header">
+    <p class="section-eyebrow">Hành trình của chúng mình</p>
+    <h2 class="section-title">Sáu Tháng: Sáu Chương</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="months-grid">
+
+    <div class="month-card reveal-item" style="transition-delay:0.05s">
+      <img class="month-card-img" src="16.png" alt="Tháng 1" loading="lazy">
+      <div class="month-card-body">
+        <span class="month-badge">💙 Tháng 1</span>
+        <p class="month-date">18/10/2025</p>
+        <h3 class="month-title">"Bắt đầu từ một ngày thật đẹp"</h3>
+        <p class="month-desc">Tháng đầu tiên bên nhau — những buổi date đầu tiên, những tin nhắn ngọt, những kỷ niệm đáng nhớ.</p>
+      </div>
+    </div>
+
+    <div class="month-card reveal-item" style="transition-delay:0.1s">
+      <img class="month-card-img" src="17.png" alt="Tháng 2" loading="lazy">
+      <div class="month-card-body">
+        <span class="month-badge">💙 Tháng 2</span>
+        <p class="month-date">18/11/2025</p>
+        <h3 class="month-title">"Gần nhau hơn từng ngày"</h3>
+        <p class="month-desc">Tặng nhau những món quà nhỏ xinh, học cách hiểu nhau nhiều hơn.</p>
+      </div>
+    </div>
+
+    <div class="month-card reveal-item" style="transition-delay:0.15s">
+      <img class="month-card-img" src="18.png" alt="Tháng 3" loading="lazy">
+      <div class="month-card-body">
+        <span class="month-badge">💙 Tháng 3</span>
+        <p class="month-date">18/12/2025</p>
+        <h3 class="month-title">"Giáng Sinh của đôi mình"</h3>
+        <p class="month-desc">Mùa Noel đặc biệt khi có nhau — những chuyến đi chơi cùng nhau, những bức ảnh đẹp và nụ cười thật thật trên đường phố rực đèn.</p>
+      </div>
+    </div>
+
+    <div class="month-card reveal-item" style="transition-delay:0.2s">
+      <img class="month-card-img" src="19.png" alt="Tháng 4" loading="lazy">
+      <div class="month-card-body">
+        <span class="month-badge">💙 Tháng 4</span>
+        <p class="month-date">18/01/2026</p>
+        <h3 class="month-title">"Tết đầu tiên bên nhau"</h3>
+        <p class="month-desc">Những ngày Tết rực rỡ, cùng nhau đón năm mới, trao nhau những hy vọng cho năm mới.</p>
+      </div>
+    </div>
+
+    <div class="month-card reveal-item" style="transition-delay:0.25s">
+      <img class="month-card-img" src="30.png" alt="Tháng 5" loading="lazy">
+      <div class="month-card-body">
+        <span class="month-badge">💙 Tháng 5</span>
+        <p class="month-date">18/02/2026</p>
+        <h3 class="month-title">"Khám phá thành phố cùng nhau"</h3>
+        <p class="month-desc">Những chuyến phiêu lưu qua nhiều con phố, chụp ảnh tại Landmark, ăn cùng nhau và tận hưởng từng giây phút bên nhau.</p>
+      </div>
+    </div>
+
+    <div class="month-card reveal-item" style="transition-delay:0.3s">
+      <img class="month-card-img" src="31.png" alt="Tháng 6" loading="lazy">
+      <div class="month-card-body">
+        <span class="month-badge">🎓 Tháng 6</span>
+        <p class="month-date">18/03/2026</p>
+        <h3 class="month-title">"Tốt nghiệp và bước tiếp"</h3>
+        <p class="month-desc">Kicu tốt nghiệp. Cùng nhau đến concert, chụp ảnh kỷ niệm, và hiểu nhau hơn.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="ribbon-divider" style="background: linear-gradient(160deg, #f0f8ff, #fff5f8)">
+  <div class="ribbon-line"></div>
+  <span class="ribbon-icon">🌊</span>
+  <div class="ribbon-line"></div>
+</div>
+
+<!-- ===== GALLERY ===== -->
+<section class="gallery-section">
+  <div class="section-header">
+    <p class="section-eyebrow">Chúng mình cùng nhau</p>
+    <h2 class="section-title">Những Khoảnh Khắc Đáng Nhớ</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="gallery-grid">
+    <div class="gallery-item reveal-item" style="transition-delay:0.05s">
+      <img src="26.png" alt="Kicu x Mida" loading="lazy">
+    </div>
+    <div class="gallery-item reveal-item" style="transition-delay:0.1s; aspect-ratio: 3/5;">
+      <img src="27.png" alt="Chúng mình có nhau" loading="lazy">
+    </div>
+    <div class="gallery-item reveal-item" style="transition-delay:0.15s; aspect-ratio: 3/5;">
+      <img src="18.png" alt="3rd Month" loading="lazy">
+    </div>
+    <div class="gallery-item reveal-item" style="transition-delay:0.2s">
+      <img src="19.png" alt="4th Month" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="ribbon-divider">
+  <div class="ribbon-line"></div>
+  <span class="ribbon-icon">💌</span>
+  <div class="ribbon-line"></div>
+</div>
+
+<!-- ===== LETTER ===== -->
+<section class="letter-section">
+  <div class="letter-wrap reveal-item">
+    <div class="letter-stamp">✉ Với tất cả tình yêu</div>
+
+    <p class="letter-to">Gửi Mida - người đặc biệt của Kicu,</p>
+
+    <div class="letter-body">
+      <p>
+        Hôm nay ngồi nhìn lại hành trình 6 tháng qua, em mới chợt nhận ra thời gian trôi nhanh đến lạ. Có những ngày dường như mới chỉ là bắt đầu, vậy mà tụi mình đã cùng nhau đi qua tròn nửa năm với biết bao nhiêu kỷ niệm.
+      </p>
+      <p>
+        Em muốn viết đôi dòng này để thực sự cảm ơn anh. Cảm ơn Mida vì đã xuất hiện vào lúc em cần một sự quan tâm nhất, và vì đã chọn ở lại, kiên trì cùng em xây dựng những thấu hiểu nhỏ bé mỗi ngày. Cảm ơn anh đã luôn là người lắng nghe những mẩu chuyện không đầu không cuối của em, đã kiên nhẫn với những lúc em bướng bỉnh, và luôn dành cho em một cái nắm tay thật chặt để em biết mình không bao giờ đơn độc.
+      </p>
+      <p>
+        Người ta nói 6 tháng là cột mốc để người ta hiểu nhau hơn, và em thấy mình thật may mắn khi càng hiểu về anh, em lại càng thương anh nhiều hơn. Em không mong tụi mình phải có một tình yêu thật hào nhoáng hay hoàn hảo, em chỉ mong dù là 6 tháng, 6 năm hay lâu hơn nữa, tụi mình vẫn giữ được sự dịu dàng này dành cho nhau. Vẫn có thể cùng nhau đi dạo, cùng nhau kể về những ước mơ, và cùng nhau trưởng thành và thành công hơn nữa.
+      <p>
+       Chúc mừng ngày kỷ niệm của tụi mình. Cảm ơn Mida đã đến và làm cho thế giới của Kicu trở nên rực rỡ và ấm áp hơn rất nhiều.
+      </p>
+      <p>
+        <span class="highlight">Hẹn gặp anh ở tháng thứ 7, thứ 12, và tất cả những tháng phía trước. 💙</span>
+      </p>
+    </div>
+
+    <p class="letter-sign">
+      Yêu anh thật nhiều,<br>
+      <em>Em Kicu. ✦</em>
+    </p>
+  </div>
+</section>
+
+<!-- ===== PROMISES ===== -->
+<section class="promise-section">
+  <div class="section-header">
+    <p class="section-eyebrow">Những điều nhỏ nhoi mà lớn lắm</p>
+    <h2 class="section-title" style="color:white">Mong rằng</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="promise-grid">
+    <div class="promise-item reveal-item" style="transition-delay:0.05s">
+      <span class="promise-icon">☀️</span>
+      <p class="promise-text">
+        <strong>Mỗi buổi sáng</strong>
+        Dù bận đến đâu, vẫn sẽ gửi một tin nhắn nhỏ để biết mình đang được nghĩ tới nhau.
+      </p>
+    </div>
+    <div class="promise-item reveal-item" style="transition-delay:0.1s">
+      <span class="promise-icon">🤝</span>
+      <p class="promise-text">
+        <strong>Khi khó khăn</strong>
+        Không bỏ đi một mình — sẽ nói chuyện, sẽ ngồi lại, sẽ giải quyết cùng nhau.
+      </p>
+    </div>
+    <div class="promise-item reveal-item" style="transition-delay:0.15s">
+      <span class="promise-icon">🌙</span>
+      <p class="promise-text">
+        <strong>Mỗi buổi tối</strong>
+        Sẽ luôn kết thúc bằng những lời chúc dù ngắn, dù dài, miễn là nhau biết rằng chúng mình vẫn ở đây.
+      </p>
+    </div>
+    <div class="promise-item reveal-item" style="transition-delay:0.2s">
+      <span class="promise-icon">🌱</span>
+      <p class="promise-text">
+        <strong>Trưởng thành cùng nhau</strong>
+        Không ngừng lắng nghe, không ngừng học cách yêu thương đúng cách hơn mỗi ngày.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WISHES ===== -->
+<section class="wishes-section">
+  <div class="section-header">
+    <p class="section-eyebrow">Từ trái tim</p>
+    <h2 class="section-title">Lời Chúc Nửa Năm</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="wishes-grid">
+    <div class="wish-card reveal-item" style="transition-delay:0.05s">
+      <p class="wish-text">
+        Chúc chúng mình mãi giữ được sự nhẹ nhàng, bao dung trong từng cuộc trò chuyện — dù ngày vui hay ngày buồn, dù gần hay xa, vẫn luôn chọn nhau.
+      </p>
+      <p class="wish-from">— Cho Mida & Kicu 💙</p>
+    </div>
+
+    <div class="wish-card reveal-item" style="transition-delay:0.1s">
+      <p class="wish-text">
+        Chúc anh Mida luôn tự hào về hành trình của mình, mỗi bước tiến đều có Mida bên cạnh hò hét cổ vũ — loud and proudcủa Kicu.
+      </p>
+      <p class="wish-from">— Từ Kicu 💙</p>
+    </div>
+
+    <div class="wish-card reveal-item" style="transition-delay:0.15s">
+      <p class="wish-text">
+        Chúc tình yêu này lớn lên theo năm tháng — không phải ồn ào, mà sâu lắng và bền vững như màu xanh biển cả sau mỗi cơn bão.
+      </p>
+      <p class="wish-from">— 💙</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <span class="footer-heart">💙</span>
+  <h2 class="footer-title">Mida × Kicu</h2>
+  <p class="footer-date">18 · 10 · 2025 — 18 · 04 · 2026</p>
+  <p class="footer-note">Made with love ✦ Nửa năm đầu của hành trình dài</p>
+</footer>
+
+<!-- ===== CANVAS HEARTS ===== -->
+<script>
+const canvas = document.getElementById('hearts-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, hearts = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function randomHeart() {
+  return {
+    x: Math.random() * W,
+    y: H + 40,
+    size: Math.random() * 18 + 8,
+    speed: Math.random() * 0.6 + 0.3,
+    opacity: Math.random() * 0.3 + 0.05,
+    drift: (Math.random() - 0.5) * 0.4,
+    sway: Math.random() * 0.02 + 0.005,
+    swayOffset: Math.random() * Math.PI * 2,
+  };
+}
+
+for (let i = 0; i < 25; i++) {
+  const h = randomHeart();
+  h.y = Math.random() * H;
+  hearts.push(h);
+}
+
+function drawHeart(x, y, size, opacity) {
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = '#7bb8e8';
+  ctx.beginPath();
+  ctx.moveTo(x, y + size * 0.3);
+  ctx.bezierCurveTo(x, y, x - size * 0.5, y, x - size * 0.5, y + size * 0.3);
+  ctx.bezierCurveTo(x - size * 0.5, y + size * 0.6, x, y + size * 0.85, x, y + size);
+  ctx.bezierCurveTo(x, y + size * 0.85, x + size * 0.5, y + size * 0.6, x + size * 0.5, y + size * 0.3);
+  ctx.bezierCurveTo(x + size * 0.5, y, x, y, x, y + size * 0.3);
+  ctx.fill();
+  ctx.restore();
+}
+
+let frame = 0;
+function animate() {
+  ctx.clearRect(0, 0, W, H);
+  frame++;
+
+  if (frame % 90 === 0 && hearts.length < 35) hearts.push(randomHeart());
+
+  hearts = hearts.filter(h => h.y > -50);
+  hearts.forEach(h => {
+    h.y -= h.speed;
+    h.x += Math.sin(frame * h.sway + h.swayOffset) * 0.5 + h.drift;
+    drawHeart(h.x, h.y, h.size, h.opacity);
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+// ===== SCROLL REVEAL =====
+const revealItems = document.querySelectorAll('.reveal-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealItems.forEach(el => observer.observe(el));
+
+// Alias profile-card and other cards
+document.querySelectorAll('.profile-card, .month-card, .gallery-item, .promise-item, .wish-card, .letter-wrap').forEach(el => {
+  if (!el.classList.contains('reveal-item')) {
+    el.classList.add('reveal-item');
+    observer.observe(el);
+  }
+});
+
+// ===== COUNTER ANIMATION =====
+function animateCounter(el, target, duration = 1500) {
+  let start = 0, startTime = null;
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    const progress = Math.min((ts - startTime) / duration, 1);
+    el.textContent = Math.floor(progress * target);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(step);
+}
+const daysEl = document.getElementById('cnt-days');
+const daysObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    animateCounter(daysEl, 183);
+    daysObserver.disconnect();
+  }
+}, { threshold: 0.5 });
+daysObserver.observe(daysEl);
+</script>
 </body>
 </html>
